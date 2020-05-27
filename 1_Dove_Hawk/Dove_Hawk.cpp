@@ -19,7 +19,7 @@ int main()
     const long NUM_CREATURES_MAX = PLAYFIELD_SIZE * 2;  //Cap the number of creatures in the simulation, else we'll eventually have 3 per area which is undefined.
 
     const long DOVE_SPAWN_NUM = 5;                  //Number of doves to start simulation with
-    const long HAWK_SPAWN_NUM = 10;                 //Number of hawks to start simulation with
+    const long HAWK_SPAWN_NUM = 5;                 //Number of hawks to start simulation with
 
     const float DOVE_WITH_HAWK_SURVIVAL_PROB = 0.5; //Death rate of doves when they meet a hawk
     const float HAWK_WITH_HAWK_SURVIVAL_PROB = 0.0; //Death rate of both hawks when they meet eachother
@@ -50,9 +50,8 @@ int main()
     }
 
 
-
-
-
+    //Now we need to spawn the creatures into the playfield and have them reproduce and kill eachother and whatnot
+    
 
 
 
