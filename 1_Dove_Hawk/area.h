@@ -8,6 +8,7 @@ class Area
         Area();  //Declare default constructor;
 
     private:
+        short numCreatures;
         Creature* creaturePtr1;
         Creature* creaturePtr2;
 };

@@ -17,41 +17,64 @@ int main()
     //SIMULATION CONSTANTS
     const long PLAYFIELD_SIZE = 100;
     const long NUM_CREATURES_MAX = PLAYFIELD_SIZE * 2;  //Cap the number of creatures in the simulation, else we'll eventually have 3 per area which is undefined.
+    const long NUM_SIMULATION_DAYS = 100;
 
-    const long DOVE_SPAWN_NUM = 5;                  //Number of doves to start simulation with
-    const long HAWK_SPAWN_NUM = 5;                 //Number of hawks to start simulation with
+    const long DOVE_SPAWN_NUM = 5;                      //Number of doves to start simulation with
+    const long HAWK_SPAWN_NUM = 5;                      //Number of hawks to start simulation with
 
-    const float DOVE_WITH_HAWK_SURVIVAL_PROB = 0.5; //Death rate of doves when they meet a hawk
-    const float HAWK_WITH_HAWK_SURVIVAL_PROB = 0.0; //Death rate of both hawks when they meet eachother
+    const float DOVE_WITH_HAWK_SURVIVAL_PROB = 0.5;     //Survival probability of a dove when it meets a hawk
+    const float HAWK_WITH_HAWK_SURVIVAL_PROB = 0.0;     //Survival probability of both hawks when they meet eachother
 
-    const float HAWK_WITH_DOVE_REPRO_PROB = 0.5;    //Reproduction chance of hawk when dove is met
-
+    const float HAWK_WITH_DOVE_REPRO_PROB = 0.5;        //Reproduction chance of hawk when dove is met
 
 
     //General Variables
     long spawnIndex = 0;
 
-    //This is where creatures will spawn each simulation turn
-    Area playField[PLAYFIELD_SIZE];
-    std::vector<Creature> allCreatures;
+    Area playField[PLAYFIELD_SIZE];         //Where creatures will spawn each simulation turn
+    std::vector<long> openPlayFieldIdx;     //Vector that holds shuffled list of playField indeces [0, PLAYFIELD_SIZE -1] where each value appears twice. Used in assigning creatures to spaces efficiently.
+    std::vector<Creature> aliveCreatures;   //Holds all alive creatures
+    std::vector<Creature> deadCreatures;    //Holds all dead creatures
 
-    //Random seed
+    //Seed
     srand(time(NULL));
 
-    //Initial populating
+    //Initial dove creation
     for(int i=0; i<DOVE_SPAWN_NUM; i++)
-    {
-        allCreatures.push_back(Creature(Creature::Strategy::dove)); //Creature constructor passed an enum value
+        aliveCreatures.push_back(Creature(Creature::Strategy::dove)); //Creature constructor passed an enum value
+
+    //Initial hawk creation
+    for(int i=0; i<HAWK_SPAWN_NUM; i++)
+        aliveCreatures.push_back(Creature(Creature::Strategy::hawk)); //Creature Constructor passed an enum value
+
+
+    //Initialize openPlayField
+    for(int i=0; i<2; i++){
+        for(long q=0; q<PLAYFIELD_SIZE; q++){
+            openPlayFieldIdx.push_back(q);
+        }
     }
 
-    for(int i=0; i<HAWK_SPAWN_NUM; i++)
-    {
-        allCreatures.push_back(Creature(Creature::Strategy::hawk)); //Creature Constructor passed an enum value
-    }
+    
+
+
+    /*==============================
+       MAIN SIMULATION LOOP BELOW
+    ===============================*/
 
 
     //Now we need to spawn the creatures into the playfield and have them reproduce and kill eachother and whatnot
-    
+    for(int i=0; i<NUM_SIMULATION_DAYS; i++)
+    {
+
+
+
+        ShuffleArray();
+        //Have each alive creature randomly get assigned to somewhere in the playField
+            //Keep track of every index that has one or more creatures on it
+
+        //Once all creatures placed, evaluate whether 
+    }
 
 
 

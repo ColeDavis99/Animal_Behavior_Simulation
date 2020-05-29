@@ -2,7 +2,15 @@
 #define HEADERFILE
     #include <iostream>
     #include <vector>
-    #include "stdlib.h"
-    #include "time.h"
+    #include <algorithm>
+    #include <cstdlib>
+    #include <ctime>
+
+/*=======================
+  Function Declarations
+=========================*/
+
+//Shuffles all values in an array
+void ShuffleArray();
 
 #endif

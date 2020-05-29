@@ -4,6 +4,7 @@
 //Define default constructor
 Area::Area()
 {
+    numCreatures = 0;
     creaturePtr1 = nullptr;
     creaturePtr2 = nullptr;
 }
