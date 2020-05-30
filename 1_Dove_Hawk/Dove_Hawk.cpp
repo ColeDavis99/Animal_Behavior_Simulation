@@ -15,12 +15,14 @@ using namespace std;
 int main()
 {
     //SIMULATION CONSTANTS
-    const long PLAYFIELD_SIZE = 2;
-    const long NUM_CREATURES_MAX = PLAYFIELD_SIZE * 2;  //Cap the number of creatures in the simulation, else we'll eventually have 3 per area which is undefined.
-    const long NUM_SIMULATION_DAYS = 5;
-
     const long DOVE_SPAWN_NUM = 1;                      //Number of doves to start simulation with
     const long HAWK_SPAWN_NUM = 1;                      //Number of hawks to start simulation with
+    
+    const long EXTRA_SPACE = 100;
+    const long PLAYFIELD_SIZE = DOVE_SPAWN_NUM + HAWK_SPAWN_NUM + EXTRA_SPACE;            //Must be at least                    
+    const long NUM_CREATURES_MAX = PLAYFIELD_SIZE * 2;                                    //Cap the number of creatures in the simulation, else we'll eventually have 3 per area which is undefined.
+    const long NUM_SIMULATION_DAYS = 5;
+
 
     const float DOVE_WITH_HAWK_SURVIVAL_PROB = 0.5;     //Survival probability of a dove when it meets a hawk
     const float HAWK_WITH_HAWK_SURVIVAL_PROB = 0.0;     //Survival probability of both hawks when they meet eachother
@@ -144,7 +146,7 @@ int main()
             cout<<"Everything is dead. Ending simulation."<<endl;
 
             //Clean up memory
-            
+
             break;
         }
 
