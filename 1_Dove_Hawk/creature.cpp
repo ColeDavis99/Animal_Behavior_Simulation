@@ -20,7 +20,12 @@ Creature::Creature(Strategy strat)
 }
 
 
-
+//Creature copy constructor
+Creature::Creature(const Creature &creat)
+{
+    creatureType = creat.creatureType;
+    creatureID = creat.creatureID;
+}
 
 //MEMBER FUNCTION DEFINITIONS
 long Creature::Get_creatureID(){ return creatureID; }

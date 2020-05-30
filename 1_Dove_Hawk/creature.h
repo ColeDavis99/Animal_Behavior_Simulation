@@ -12,13 +12,17 @@ class Creature
         static string strategyNames[2];     //Declare array where we "map" enum values to their strings                    
         
         //CONSTRUCTORS
-        Creature();                   //Default constructor declaration
-        Creature(Strategy strat);     //Creature type constructor declaration
+        Creature();                      //Default constructor declaration
+        Creature(Strategy strat);        //Creature type constructor declaration
+        Creature(const Creature &creat); //Copy constructor
 
         //MEMBER FUNCTIONS
+
+        //Getters
         long Get_creatureID();
         string Get_creatureType();
         
+        //Setters
         void Set_creatureType(Strategy strat);
 
     private: 

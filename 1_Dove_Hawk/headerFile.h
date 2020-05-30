@@ -10,7 +10,5 @@
   Function Declarations
 =========================*/
 
-//Shuffles all values in an array
-void ShuffleArray();
 
 #endif

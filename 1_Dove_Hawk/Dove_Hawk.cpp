@@ -15,12 +15,12 @@ using namespace std;
 int main()
 {
     //SIMULATION CONSTANTS
-    const long PLAYFIELD_SIZE = 20;
+    const long PLAYFIELD_SIZE = 10;
     const long NUM_CREATURES_MAX = PLAYFIELD_SIZE * 2;  //Cap the number of creatures in the simulation, else we'll eventually have 3 per area which is undefined.
     const long NUM_SIMULATION_DAYS = 1;
 
-    const long DOVE_SPAWN_NUM = 5;                      //Number of doves to start simulation with
-    const long HAWK_SPAWN_NUM = 5;                      //Number of hawks to start simulation with
+    const long DOVE_SPAWN_NUM = 10;                      //Number of doves to start simulation with
+    const long HAWK_SPAWN_NUM = 0;                      //Number of hawks to start simulation with
 
     const float DOVE_WITH_HAWK_SURVIVAL_PROB = 0.5;     //Survival probability of a dove when it meets a hawk
     const float HAWK_WITH_HAWK_SURVIVAL_PROB = 0.0;     //Survival probability of both hawks when they meet eachother
@@ -55,8 +55,6 @@ int main()
         }
     }
 
-    //Shuffle our openIndex values
-    std::random_shuffle(openPlayFieldIdx.begin(), openPlayFieldIdx.end());
 
 
 
@@ -69,39 +67,45 @@ int main()
     //Now we need to spawn the creatures into the playfield and have them reproduce and kill eachother and whatnot
     for(int i=0; i<NUM_SIMULATION_DAYS; i++)
     {
-        //Have each alive creature randomly get assigned an open spot somewhere in the playField
+        //Shuffle our openIndex values
+        std::random_shuffle(openPlayFieldIdx.begin(), openPlayFieldIdx.end());
+
+        //Assign every alive creature a spot somewhere in the playField (two creatures per spot maximum)
         numAliveCreatures = aliveCreatures.size();
         for(long q=0; q<numAliveCreatures; q++)
         {
            playField[openPlayFieldIdx[q]].AddCreature(&aliveCreatures[q]);
         }
 
-        //Display all creatureID's in their spot
-        for(long r = 0; r<PLAYFIELD_SIZE; r++)
+        //Look at each placed creature and their situation, and alter values accordingly to the situation.
+        //THIS WOULD BE COOL TO MULTITHREAD
+        for(long r=0; r<numAliveCreatures; r++)
         {
-            playField[r].showCreatureIDs();
-            cout<<endl;
+            playField[openPlayFieldIdx[r]].CreatureAction(aliveCreatures, deadCreatures, NUM_CREATURES_MAX, DOVE_WITH_HAWK_SURVIVAL_PROB, HAWK_WITH_HAWK_SURVIVAL_PROB, HAWK_WITH_DOVE_REPRO_PROB);
         }
 
-        //Look at each placed creature and their situation, and alter values accordingly to the situation.
-
+        //Remove the extra creatures in aliveCreatures if NUM_CREATURES_MAX is exceeded
+        if(aliveCreatures.size() > NUM_CREATURES_MAX)
+        {
+            cout<<"Removing extras: "<<aliveCreatures.size()<<endl;
+            while(aliveCreatures.size() > NUM_CREATURES_MAX)
+                aliveCreatures.pop_back();
+        }
     }
 
 
+        // Create a creature with default constructor and setters
+        // Creature testCreature;
+        // testCreature.Set_creatureType(Creature::Strategy::dove);
+        // cout<<"TEST HERE"<<endl;
+        // cout<<testCreature.Get_creatureType()<<endl;
+        // cout<<"end test"<<endl<<endl;
 
-
-    // Create a creature with default constructor and setters
-    // Creature testCreature;
-    // testCreature.Set_creatureType(Creature::Strategy::dove);
-    // cout<<"TEST HERE"<<endl;
-    // cout<<testCreature.Get_creatureType()<<endl;
-    // cout<<"end test"<<endl<<endl;
-
-    //View all hawks and doves ID's and types
-    // for(int i=0; i<DOVE_SPAWN_NUM+HAWK_SPAWN_NUM; i++)
-    // {
-    //     cout<<allCreatures[i].Get_creatureID()<<endl;
-    //     cout<<allCreatures[i].Get_creatureType()<<endl<<endl;
-    // }
-    return 0;
+        //View all hawks and doves ID's and types
+        // for(int i=0; i<DOVE_SPAWN_NUM+HAWK_SPAWN_NUM; i++)
+        // {
+        //     cout<<allCreatures[i].Get_creatureID()<<endl;
+        //     cout<<allCreatures[i].Get_creatureType()<<endl<<endl;
+        // }
+        return 0;
 }
