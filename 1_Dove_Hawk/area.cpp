@@ -13,6 +13,7 @@ using std::endl;
 Area::Area()
 {
     numCreatures = 0;
+    beenProcessed = false;
     creaturePtr1 = nullptr;
     creaturePtr2 = nullptr;
 }
@@ -78,17 +79,28 @@ void Area::ShowCreatureTypes()
     }
 }
 
+//Shows the memory addresses of each creature on this space.
+void Area::ShowCreatureMemoryAddrs()
+{
+    cout<<"Creature1: "<<creaturePtr1<<endl;
+    cout<<"Creature2: "<<creaturePtr2<<endl;
+}
+
 //Evaluate the creatures on this space, and update values accordingly.
 //We know there will always be at least one creature, due to the duplicate openPlayFieldIdx values and how we're looping in main.
 void Area::CreatureAction(std::vector<Creature> &aliveCreatures, std::vector<Creature> &deadCreatures, const long NUM_CREATURES_MAX, const float DOVE_WITH_HAWK_SURVIVAL_PROB, const float HAWK_WITH_HAWK_SURVIVAL_PROB, const float HAWK_WITH_DOVE_REPRO_PROB)
 {
+    cout << "WUB1" << endl;
 
     long aliveCreatureIndex = 0; //Used for finding a killed creature's index in aliveCreatures
     float randomProb = 0.0;
+    cout<<"Creature 1 mem in CreatureAction(): "<<creaturePtr1<<endl;
+    cout << "Creature 2 mem in CreatureAction(): " << creaturePtr2 << endl;
 
     //Single Dove
-    if(creaturePtr1->Get_creatureType() == "dove" && creaturePtr2 == nullptr)
+    if(creaturePtr1->Get_creatureType() == "dove" && creaturePtr2 == nullptr)                                   //SEGFAULT IS HERE WITH creaturePtr1
     {
+        cout << "WUB2" << endl;
         aliveCreatures.push_back(Creature(Creature::Strategy::dove));
     }
 
@@ -135,6 +147,7 @@ void Area::CreatureAction(std::vector<Creature> &aliveCreatures, std::vector<Cre
     //One Hawk and One Dove (swip swap || statement)
     else if( (creaturePtr1->Get_creatureType() == "hawk" && creaturePtr2->Get_creatureType() == "dove") || (creaturePtr1->Get_creatureType() == "dove" && creaturePtr2->Get_creatureType() == "hawk") )
     {
+        cout<<"WUB6"<<endl;
         //See if dove dies with the prob
         randomProb = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         if (randomProb >= DOVE_WITH_HAWK_SURVIVAL_PROB)
@@ -163,6 +176,7 @@ void Area::CreatureAction(std::vector<Creature> &aliveCreatures, std::vector<Cre
             aliveCreatures.push_back(Creature(Creature::Strategy::hawk));
         }
     }
+    cout<<"ENd wub"<<endl;
 }
 
 //Returns a creature's position within some vector
@@ -186,8 +200,15 @@ long Area::ReturnCreatureIndex(std::vector<Creature> &creatureVec, long creature
 void Area::Clear()
 {
     numCreatures = 0;
-    creaturePtr2 = nullptr;
+    creaturePtr1 = nullptr;
     creaturePtr2 = nullptr;
 }
 
+
+
+//Getters
 short Area::Get_numCreatures(){return numCreatures;}
+bool Area::Get_beenProcessed(){return beenProcessed;}
+
+//Setters
+void Area::Set_beenProcessed(bool visited) {beenProcessed = visited;}

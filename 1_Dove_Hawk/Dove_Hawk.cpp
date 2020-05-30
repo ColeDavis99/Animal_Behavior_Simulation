@@ -19,7 +19,7 @@ int main()
     const long NUM_CREATURES_MAX = PLAYFIELD_SIZE * 2;  //Cap the number of creatures in the simulation, else we'll eventually have 3 per area which is undefined.
     const long NUM_SIMULATION_DAYS = 100;
 
-    const long DOVE_SPAWN_NUM = 5;                      //Number of doves to start simulation with
+    const long DOVE_SPAWN_NUM = 1;                      //Number of doves to start simulation with
     const long HAWK_SPAWN_NUM = 0;                      //Number of hawks to start simulation with
 
     const float DOVE_WITH_HAWK_SURVIVAL_PROB = 0.5;     //Survival probability of a dove when it meets a hawk
@@ -76,14 +76,20 @@ int main()
         for(long q=0; q<preNumAliveCreatures; q++)
         {
             cout<<"Adding creature at space "<<openPlayFieldIdx[q]<<endl;
+            cout<<"Creature Memory: "<<&aliveCreatures[q]<<endl<<endl;;
             playField[openPlayFieldIdx[q]].AddCreature(&aliveCreatures[q]);
+            playField[openPlayFieldIdx[q]].ShowCreatureTypes();
         }
 
         //Look at each placed creature and their situation, and alter values accordingly to the situation.
         //THIS WOULD BE COOL TO MULTITHREAD
         for(long r=0; r<preNumAliveCreatures; r++)
         {
-            playField[openPlayFieldIdx[r]].CreatureAction(aliveCreatures, deadCreatures, NUM_CREATURES_MAX, DOVE_WITH_HAWK_SURVIVAL_PROB, HAWK_WITH_HAWK_SURVIVAL_PROB, HAWK_WITH_DOVE_REPRO_PROB);
+            if(playField[openPlayFieldIdx[r]].Get_beenProcessed() == false) //Prevents double CreatureAction when there's two creatures per space.
+            {
+                playField[openPlayFieldIdx[r]].CreatureAction(aliveCreatures, deadCreatures, NUM_CREATURES_MAX, DOVE_WITH_HAWK_SURVIVAL_PROB, HAWK_WITH_HAWK_SURVIVAL_PROB, HAWK_WITH_DOVE_REPRO_PROB);
+                playField[openPlayFieldIdx[r]].Set_beenProcessed(true);
+            }
         }
 
         //Remove the extra creatures in aliveCreatures if NUM_CREATURES_MAX is exceeded
@@ -98,10 +104,20 @@ int main()
         for(long i=0; i<preNumAliveCreatures; i++)
         {
             cout<<"Clearing space "<<openPlayFieldIdx[i]<<endl;
+            cout<<"Pre Creature Memory: "<<endl;
+            playField[openPlayFieldIdx[i]].ShowCreatureMemoryAddrs();
+
             playField[openPlayFieldIdx[i]].Clear();
+            cout << "Post Creature Memory: "<<endl;
+            playField[openPlayFieldIdx[i]].ShowCreatureMemoryAddrs();
+            cout<<endl;
+
+            //Reset beenProcessed flag on each space
+            playField[openPlayFieldIdx[i]].Set_beenProcessed(0);
         }
 
         cout<<aliveCreatures.size()<<endl;
+        cout<<"=========================================="<<endl;
     }
 
 
