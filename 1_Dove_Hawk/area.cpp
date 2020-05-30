@@ -88,7 +88,6 @@ void Area::CreatureAction(std::vector<Creature> &aliveCreatures, std::vector<Cre
     //Single Dove
     if(creaturePtr1->Get_creatureType() == "dove" && creaturePtr2 == nullptr)
     {
-        cout<<"ONE DOVE"<<endl;
         aliveCreatures.push_back(Creature(Creature::Strategy::dove));
     }
 

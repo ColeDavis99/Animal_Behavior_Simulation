@@ -1,4 +1,7 @@
+#include<iostream>
 #include "creature.h"
+using std::cout;
+using std::endl;
 
 //STATIC VARIABLES
 long Creature::id = 0;                                   //Static variable counter
@@ -14,6 +17,7 @@ Creature::Creature()
 //Creature type constructor declaration
 Creature::Creature(Strategy strat)
 {
+    cout<<"I AM BEING BORN"<<endl;
     creatureType = strat;
     id++;
     creatureID = id;
