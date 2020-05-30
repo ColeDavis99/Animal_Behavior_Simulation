@@ -192,7 +192,7 @@ long Area::ReturnCreatureIndex(std::vector<Creature> &creatureVec, long creature
         ctr++;
     }
 
-    cout<<"Creature not found in this vector!"<<endl;
+    cout<<"Creature not found in this vector!------------------------------------------"<<endl;
     return -1;
 }
 

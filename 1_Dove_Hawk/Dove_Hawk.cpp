@@ -15,12 +15,12 @@ using namespace std;
 int main()
 {
     //SIMULATION CONSTANTS
-    const long PLAYFIELD_SIZE = 10;
+    const long PLAYFIELD_SIZE = 2;
     const long NUM_CREATURES_MAX = PLAYFIELD_SIZE * 2;  //Cap the number of creatures in the simulation, else we'll eventually have 3 per area which is undefined.
-    const long NUM_SIMULATION_DAYS = 100;
+    const long NUM_SIMULATION_DAYS = 5;
 
     const long DOVE_SPAWN_NUM = 1;                      //Number of doves to start simulation with
-    const long HAWK_SPAWN_NUM = 0;                      //Number of hawks to start simulation with
+    const long HAWK_SPAWN_NUM = 1;                      //Number of hawks to start simulation with
 
     const float DOVE_WITH_HAWK_SURVIVAL_PROB = 0.5;     //Survival probability of a dove when it meets a hawk
     const float HAWK_WITH_HAWK_SURVIVAL_PROB = 0.0;     //Survival probability of both hawks when they meet eachother
@@ -95,7 +95,7 @@ int main()
         //Remove the extra creatures in aliveCreatures if NUM_CREATURES_MAX is exceeded
         if(aliveCreatures.size() > NUM_CREATURES_MAX)
         {
-            cout<<"Removing extras: "<<aliveCreatures.size()<<endl;
+            cout<<"Removing extras:--------------------------------------------------------------------------------------- "<<aliveCreatures.size()<<endl;
             while(aliveCreatures.size() > NUM_CREATURES_MAX)
                 aliveCreatures.pop_back();
         }
@@ -116,23 +116,30 @@ int main()
             playField[openPlayFieldIdx[i]].Set_beenProcessed(0);
         }
 
+        if(aliveCreatures.size() == 0)
+        {
+            cout<<"Everything is dead. Ending simulation."<<endl;
+            break;
+        }
+
         cout<<aliveCreatures.size()<<endl;
-        cout<<"=========================================="<<endl;
+        cout << "========================================== DAY " << i << " =========================================="<<endl;
     }
 
 
-        // Create a creature with default constructor and setters
-        // Creature testCreature;
-        // testCreature.Set_creatureType(Creature::Strategy::dove);
-        // cout<<"TEST HERE"<<endl;
-        // cout<<testCreature.Get_creatureType()<<endl;
-        // cout<<"end test"<<endl<<endl;
+    // Create a creature with default constructor and setters
+    // Creature testCreature;
+    // testCreature.Set_creatureType(Creature::Strategy::dove);
+    // cout<<"TEST HERE"<<endl;
+    // cout<<testCreature.Get_creatureType()<<endl;
+    // cout<<"end test"<<endl<<endl;
 
-        //View all hawks and doves ID's and types
-        // for(int i=0; i<DOVE_SPAWN_NUM+HAWK_SPAWN_NUM; i++)
-        // {
-        //     cout<<allCreatures[i].Get_creatureID()<<endl;
-        //     cout<<allCreatures[i].Get_creatureType()<<endl<<endl;
-        // }
-        return 0;
+    //View all hawks and doves ID's and types
+    // for(int i=0; i<DOVE_SPAWN_NUM+HAWK_SPAWN_NUM; i++)
+    // {
+    //     cout<<allCreatures[i].Get_creatureID()<<endl;
+    //     cout<<allCreatures[i].Get_creatureType()<<endl<<endl;
+    // }
+    cout<<"hi2"<<endl;
+    return 0;
 }
