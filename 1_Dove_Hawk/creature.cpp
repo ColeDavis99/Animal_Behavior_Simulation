@@ -20,6 +20,7 @@ Creature::Creature(Strategy strat)
     creatureType = strat;
     id++;
     creatureID = id;
+    cout<<strategyNames[strat]<<" BORN WITH ID: "<<creatureID<<endl;
 }
 
 
@@ -33,6 +34,6 @@ Creature::Creature(const Creature &creat)
 //MEMBER FUNCTION DEFINITIONS
 long Creature::Get_creatureID(){ return creatureID; }
 
-string Creature::Get_creatureType(){ return strategyNames[creatureType]; }
+string Creature::Get_creatureType(){ return strategyNames[creatureType];}
 
 void Creature::Set_creatureType(Strategy strat){ creatureType = strat; }

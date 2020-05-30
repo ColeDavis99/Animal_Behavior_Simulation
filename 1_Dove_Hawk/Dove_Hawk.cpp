@@ -63,7 +63,6 @@ int main()
        MAIN SIMULATION LOOP BELOW
     ===============================*/
 
-
     //Now we need to spawn the creatures into the playfield and have them reproduce and kill eachother and whatnot
     for(int i=0; i<NUM_SIMULATION_DAYS; i++)
     {
@@ -72,23 +71,48 @@ int main()
         std::random_shuffle(openPlayFieldIdx.begin(), openPlayFieldIdx.end());
 
         //Assign every alive creature a spot somewhere in the playField (two creatures per spot maximum)
+        cout<<endl;
         preNumAliveCreatures = aliveCreatures.size();
         for(long q=0; q<preNumAliveCreatures; q++)
         {
-            cout<<"Adding creature at space "<<openPlayFieldIdx[q]<<endl;
-            cout<<"Creature Memory: "<<&aliveCreatures[q]<<endl<<endl;;
-            playField[openPlayFieldIdx[q]].AddCreature(&aliveCreatures[q]);
-            playField[openPlayFieldIdx[q]].ShowCreatureTypes();
+            cout<<"Adding "<<aliveCreatures[q].Get_creatureType()<<" "<<aliveCreatures[q].Get_creatureID()<<" at space "<<openPlayFieldIdx[q]<<"   "<<&aliveCreatures[q]<<endl;
+            playField[openPlayFieldIdx[q]].AddCreature(new Creature(aliveCreatures[q]));
         }
 
-        //Look at each placed creature and their situation, and alter values accordingly to the situation.
+
+        //Look at each placed creature and their situation, and alter values according to the situation.
         //THIS WOULD BE COOL TO MULTITHREAD
         for(long r=0; r<preNumAliveCreatures; r++)
         {
+
+            //DEBUG show aliveCreatures
+            cout<<"ALIVE CREATURES: ";
+            for(long i=0; i<aliveCreatures.size(); i++)
+            {
+                cout<<aliveCreatures[i].Get_creatureID()<<", ";
+            }
+            cout<<endl<<endl;
+
+
+            //DEBUG print out entire playfield
+            cout<<"playField "<<endl<<"["<<endl;
+            for(long t=0; t<PLAYFIELD_SIZE; t++)
+            {
+                cout<<t<<":"<<endl;
+                playField[t].ShowCreatureIDs();
+                cout<<endl;
+            }
+            cout<<"]"<<endl<<endl;
+
+
             if(playField[openPlayFieldIdx[r]].Get_beenProcessed() == false) //Prevents double CreatureAction when there's two creatures per space.
             {
+
+                cout<<"looking at playField's index "<<openPlayFieldIdx[r]<<endl;
+                //playField[openPlayFieldIdx[r]].ShowCreatureTypes();
                 playField[openPlayFieldIdx[r]].CreatureAction(aliveCreatures, deadCreatures, NUM_CREATURES_MAX, DOVE_WITH_HAWK_SURVIVAL_PROB, HAWK_WITH_HAWK_SURVIVAL_PROB, HAWK_WITH_DOVE_REPRO_PROB);
                 playField[openPlayFieldIdx[r]].Set_beenProcessed(true);
+
             }
         }
 
@@ -97,20 +121,19 @@ int main()
         {
             cout<<"Removing extras:--------------------------------------------------------------------------------------- "<<aliveCreatures.size()<<endl;
             while(aliveCreatures.size() > NUM_CREATURES_MAX)
+            {
+                cout<<"Removing creature "<<aliveCreatures.back().Get_creatureID()<<endl;
                 aliveCreatures.pop_back();
+            }
         }
 
         //Reset the playfield
         for(long i=0; i<preNumAliveCreatures; i++)
         {
-            cout<<"Clearing space "<<openPlayFieldIdx[i]<<endl;
-            cout<<"Pre Creature Memory: "<<endl;
-            playField[openPlayFieldIdx[i]].ShowCreatureMemoryAddrs();
-
             playField[openPlayFieldIdx[i]].Clear();
-            cout << "Post Creature Memory: "<<endl;
-            playField[openPlayFieldIdx[i]].ShowCreatureMemoryAddrs();
-            cout<<endl;
+            //playField[openPlayFieldIdx[i]].ShowCreatureMemoryAddrs();
+            //playField[openPlayFieldIdx[i]].ShowCreatureMemoryAddrs();
+            //cout<<endl;
 
             //Reset beenProcessed flag on each space
             playField[openPlayFieldIdx[i]].Set_beenProcessed(0);
