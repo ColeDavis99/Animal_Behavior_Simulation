@@ -17,7 +17,6 @@ Creature::Creature()
 //Creature type constructor declaration
 Creature::Creature(Strategy strat)
 {
-    cout<<"I AM BEING BORN"<<endl;
     creatureType = strat;
     id++;
     creatureID = id;
