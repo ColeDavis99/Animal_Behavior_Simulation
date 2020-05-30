@@ -32,6 +32,9 @@ int main()
 
     //General Variables
     long preNumAliveCreatures = 0;
+    long postNumAliveCreatures = 0;
+    long numDoves = 0;
+    long numHawks = 0;
 
     Area playField[PLAYFIELD_SIZE];         //Where creatures will spawn each simulation turn
     std::vector<long> openPlayFieldIdx;     //Vector that holds shuffled list of playField indeces [0, PLAYFIELD_SIZE -1] where each value appears twice. Used in assigning creatures to spaces efficiently.
@@ -57,9 +60,11 @@ int main()
         }
     }
 
-
-
-
+    //Initial output
+    cout << "========================================== DAY " << 0 << " ==========================================" << endl;
+    cout << "Num doves: " << DOVE_SPAWN_NUM << endl;
+    cout << "Num hawks: " << HAWK_SPAWN_NUM << endl;
+    cout << "Total creatures: " << aliveCreatures.size() << endl;
 
     /*==============================
        MAIN SIMULATION LOOP BELOW
@@ -68,7 +73,6 @@ int main()
     //Now we need to spawn the creatures into the playfield and have them reproduce and kill eachother and whatnot
     for(int i=0; i<NUM_SIMULATION_DAYS; i++)
     {
-
         //Shuffle our openIndex values
         std::random_shuffle(openPlayFieldIdx.begin(), openPlayFieldIdx.end());
 
@@ -77,7 +81,7 @@ int main()
         preNumAliveCreatures = aliveCreatures.size();
         for(long q=0; q<preNumAliveCreatures; q++)
         {
-            cout<<"Adding "<<aliveCreatures[q].Get_creatureType()<<" "<<aliveCreatures[q].Get_creatureID()<<" at space "<<openPlayFieldIdx[q]<<"   "<<&aliveCreatures[q]<<endl;
+            //cout<<"Adding "<<aliveCreatures[q].Get_creatureType()<<" "<<aliveCreatures[q].Get_creatureID()<<" at space "<<openPlayFieldIdx[q]<<"   "<<&aliveCreatures[q]<<endl;
             playField[openPlayFieldIdx[q]].AddCreature(new Creature(aliveCreatures[q]));
         }
 
@@ -87,30 +91,30 @@ int main()
         for(long r=0; r<preNumAliveCreatures; r++)
         {
 
-            //DEBUG show aliveCreatures
-            cout<<"ALIVE CREATURES: ";
-            for(long i=0; i<aliveCreatures.size(); i++)
-            {
-                cout<<aliveCreatures[i].Get_creatureID()<<", ";
-            }
-            cout<<endl<<endl;
+            // //DEBUG show aliveCreatures
+            // cout<<"ALIVE CREATURES: ";
+            // for(long i=0; i<aliveCreatures.size(); i++)
+            // {
+            //     cout<<aliveCreatures[i].Get_creatureID()<<", ";
+            // }
+            // cout<<endl<<endl;
 
 
-            //DEBUG print out entire playfield
-            cout<<"playField "<<endl<<"["<<endl;
-            for(long t=0; t<PLAYFIELD_SIZE; t++)
-            {
-                cout<<t<<":"<<endl;
-                playField[t].ShowCreatureIDs();
-                cout<<endl;
-            }
-            cout<<"]"<<endl<<endl;
+            // //DEBUG print out entire playfield
+            // cout<<"playField "<<endl<<"["<<endl;
+            // for(long t=0; t<PLAYFIELD_SIZE; t++)
+            // {
+            //     cout<<t<<":"<<endl;
+            //     playField[t].ShowCreatureIDs();
+            //     cout<<endl;
+            // }
+            // cout<<"]"<<endl<<endl;
 
 
             if(playField[openPlayFieldIdx[r]].Get_beenProcessed() == false) //Prevents double CreatureAction when there's two creatures per space.
             {
 
-                cout<<"looking at playField's index "<<openPlayFieldIdx[r]<<endl;
+                //cout<<"looking at playField's index "<<openPlayFieldIdx[r]<<endl;
                 //playField[openPlayFieldIdx[r]].ShowCreatureTypes();
                 playField[openPlayFieldIdx[r]].CreatureAction(aliveCreatures, deadCreatures, NUM_CREATURES_MAX, DOVE_WITH_HAWK_SURVIVAL_PROB, HAWK_WITH_HAWK_SURVIVAL_PROB, HAWK_WITH_DOVE_REPRO_PROB);
                 playField[openPlayFieldIdx[r]].Set_beenProcessed(true);
@@ -150,8 +154,21 @@ int main()
             break;
         }
 
-        cout<<aliveCreatures.size()<<endl;
-        cout << "========================================== DAY " << i << " =========================================="<<endl;
+
+        //TODO: Output the number of hawks and doves
+        postNumAliveCreatures = aliveCreatures.size();
+        for(long i=0; i<postNumAliveCreatures; i++)
+        {
+            if(aliveCreatures[i].Get_creatureType() == "dove")
+                numDoves++;
+            if(aliveCreatures[i].Get_creatureType() == "hawk")
+                numHawks++;
+        }
+
+        cout << "========================================== DAY " << i+1 << " ==========================================" << endl;
+        cout<<"Num doves: "<<numDoves<<endl;
+        cout<<"Num hawks: "<<numHawks<<endl;
+        cout<<"Total creatures: "<<aliveCreatures.size()<<endl;
     }
 
 
@@ -168,6 +185,5 @@ int main()
     //     cout<<allCreatures[i].Get_creatureID()<<endl;
     //     cout<<allCreatures[i].Get_creatureType()<<endl<<endl;
     // }
-    cout<<"hi2"<<endl;
     return 0;
 }

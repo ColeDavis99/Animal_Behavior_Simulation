@@ -20,7 +20,7 @@ Creature::Creature(Strategy strat)
     creatureType = strat;
     id++;
     creatureID = id;
-    cout<<strategyNames[strat]<<" BORN WITH ID: "<<creatureID<<endl;
+    //cout<<strategyNames[strat]<<creatureID<<" BORN"<<endl;
 }
 
 

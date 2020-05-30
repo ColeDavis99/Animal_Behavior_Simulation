@@ -119,13 +119,13 @@ void Area::CreatureAction(std::vector<Creature> &aliveCreatures, std::vector<Cre
     //Two Hawks
     else if(creaturePtr1->Get_creatureType() == "hawk" && creaturePtr2->Get_creatureType() == "hawk")
     {
-        cout<<endl<<endl<<"TWO HAWKS-----------------------------"<<endl;
+        //cout<<endl<<endl<<"TWO HAWKS-----------------------------"<<endl;
         //See if hawk 1 dies with the prob
         randomProb = static_cast<float> (rand()) / static_cast<float> (RAND_MAX);
         if(randomProb >= HAWK_WITH_HAWK_SURVIVAL_PROB)
         {
             //Update alive and dead vectors with hawk1
-            cout<<"Hawk "<<creaturePtr1->Get_creatureID()<<" killed."<<endl;
+            //cout<<"Hawk "<<creaturePtr1->Get_creatureID()<<" killed."<<endl;
             aliveCreatureIndex = ReturnCreatureIndex(aliveCreatures, creaturePtr1->Get_creatureID());
             deadCreatures.push_back(aliveCreatures[aliveCreatureIndex]);
             aliveCreatures.erase(aliveCreatures.begin() + aliveCreatureIndex);
@@ -136,7 +136,7 @@ void Area::CreatureAction(std::vector<Creature> &aliveCreatures, std::vector<Cre
         if (randomProb >= HAWK_WITH_HAWK_SURVIVAL_PROB)
         {
             //Update alive and dead vectors with hawk1
-            cout << "Hawk " << creaturePtr2->Get_creatureID() << " killed." << endl;
+            //cout << "Hawk " << creaturePtr2->Get_creatureID() << " killed." << endl;
             aliveCreatureIndex = ReturnCreatureIndex(aliveCreatures, creaturePtr2->Get_creatureID());
             deadCreatures.push_back(aliveCreatures[aliveCreatureIndex]);
             aliveCreatures.erase(aliveCreatures.begin() + aliveCreatureIndex);
@@ -154,7 +154,7 @@ void Area::CreatureAction(std::vector<Creature> &aliveCreatures, std::vector<Cre
             if(creaturePtr1->Get_creatureType() == "dove")
             {
                 //Update alive and dead vectors with dead dove
-                cout<<"Dove "<<creaturePtr1->Get_creatureID()<<" killed."<<endl;
+                //cout<<"Dove "<<creaturePtr1->Get_creatureID()<<" killed."<<endl;
                 aliveCreatureIndex = ReturnCreatureIndex(aliveCreatures, creaturePtr1->Get_creatureID());
                 deadCreatures.push_back(aliveCreatures[aliveCreatureIndex]);
                 aliveCreatures.erase(aliveCreatures.begin() + aliveCreatureIndex);
@@ -162,7 +162,7 @@ void Area::CreatureAction(std::vector<Creature> &aliveCreatures, std::vector<Cre
             else
             {
                 //Update alive and dead vectors with dead dove
-                cout << "Dove " << creaturePtr2->Get_creatureID() << " killed." << endl;
+                //cout << "Dove " << creaturePtr2->Get_creatureID() << " killed." << endl;
                 aliveCreatureIndex = ReturnCreatureIndex(aliveCreatures, creaturePtr2->Get_creatureID());
                 deadCreatures.push_back(aliveCreatures[aliveCreatureIndex]);
                 aliveCreatures.erase(aliveCreatures.begin() + aliveCreatureIndex);
@@ -181,8 +181,6 @@ void Area::CreatureAction(std::vector<Creature> &aliveCreatures, std::vector<Cre
 //Returns a creature's position within some vector
 long Area::ReturnCreatureIndex(std::vector<Creature> &creatureVec, long creatureID)
 {
-    cout<<"This is the creatureID: "<<creatureID<<endl;
-
     long ctr = 0;
     long numElements = creatureVec.size();
 
