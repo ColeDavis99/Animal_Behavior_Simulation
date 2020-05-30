@@ -201,6 +201,16 @@ long Area::ReturnCreatureIndex(std::vector<Creature> &creatureVec, long creature
 void Area::Clear()
 {
     numCreatures = 0;
+
+
+    //Memory leaks make my eyes leak
+    if(creaturePtr1 != nullptr)
+        delete creaturePtr1;
+
+    if(creaturePtr2 != nullptr)
+        delete creaturePtr2;
+
+
     creaturePtr1 = nullptr;
     creaturePtr2 = nullptr;
 }

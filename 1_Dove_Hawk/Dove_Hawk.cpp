@@ -142,6 +142,9 @@ int main()
         if(aliveCreatures.size() == 0)
         {
             cout<<"Everything is dead. Ending simulation."<<endl;
+
+            //Clean up memory
+            
             break;
         }
 
