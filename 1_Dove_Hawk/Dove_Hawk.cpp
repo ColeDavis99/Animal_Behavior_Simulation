@@ -19,10 +19,10 @@ int main()
     const long DOVE_SPAWN_NUM = 1;                      //Number of doves to start simulation with
     const long HAWK_SPAWN_NUM = 1;                      //Number of hawks to start simulation with
     
-    const long EXTRA_SPACE = 10000;
+    const long EXTRA_SPACE = 3500;
     const long PLAYFIELD_SIZE = DOVE_SPAWN_NUM + HAWK_SPAWN_NUM + EXTRA_SPACE;            //Must be at least                    
     const long NUM_CREATURES_MAX = PLAYFIELD_SIZE * 2;                                    //Cap the number of creatures in the simulation, else we'll eventually have 3 per area which is undefined.
-    const long NUM_SIMULATION_DAYS = 80;
+    const long NUM_SIMULATION_DAYS = 1000;
 
 
     const float DOVE_WITH_HAWK_SURVIVAL_PROB = 0.5;     //Survival probability of a dove when it meets a hawk
@@ -165,7 +165,7 @@ int main()
         cout<<"Num hawks: "<<numHawks<<endl;
         cout<<"Total creatures: "<<aliveCreatures.size()<<endl;
 
-        buildVisualizerString(numDoves, numHawks, EXTRA_SPACE, visualizer);
+        //buildVisualizerString(numDoves, numHawks, EXTRA_SPACE, visualizer);
 
         numHawks = 0;
         numDoves = 0;
