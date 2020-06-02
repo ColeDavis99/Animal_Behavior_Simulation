@@ -19,7 +19,7 @@ int main()
     const long DOVE_SPAWN_NUM = 1;                      //Number of doves to start simulation with
     const long HAWK_SPAWN_NUM = 1;                      //Number of hawks to start simulation with
     
-    const long EXTRA_SPACE = 2000;
+    const long EXTRA_SPACE = 10000;
     const long PLAYFIELD_SIZE = DOVE_SPAWN_NUM + HAWK_SPAWN_NUM + EXTRA_SPACE;            //Must be at least                    
     const long NUM_CREATURES_MAX = PLAYFIELD_SIZE * 2;                                    //Cap the number of creatures in the simulation, else we'll eventually have 3 per area which is undefined.
     const long NUM_SIMULATION_DAYS = 80;
@@ -27,7 +27,6 @@ int main()
 
     const float DOVE_WITH_HAWK_SURVIVAL_PROB = 0.5;     //Survival probability of a dove when it meets a hawk
     const float HAWK_WITH_HAWK_SURVIVAL_PROB = 0.0;     //Survival probability of both hawks when they meet eachother
-
     const float HAWK_WITH_DOVE_REPRO_PROB = 0.5;        //Reproduction chance of hawk when dove is met
 
 
@@ -63,7 +62,7 @@ int main()
     }
 
     //Initial output
-    cout << "========================================== DAY " << 0 << " ==========================================" << endl;
+    cout << "========================================== DAY " << 0 << " of "<<NUM_SIMULATION_DAYS<<" ==========================================" << endl;
     cout << "Num doves: " << DOVE_SPAWN_NUM << endl;
     cout << "Num hawks: " << HAWK_SPAWN_NUM << endl;
     cout << "Total creatures: " << aliveCreatures.size() << endl;
@@ -115,19 +114,15 @@ int main()
 
             if(playField[openPlayFieldIdx[r]].Get_beenProcessed() == false) //Prevents double CreatureAction when there's two creatures per space.
             {
-
-                //cout<<"looking at playField's index "<<openPlayFieldIdx[r]<<endl;
-                //playField[openPlayFieldIdx[r]].ShowCreatureTypes();
                 playField[openPlayFieldIdx[r]].CreatureAction(aliveCreatures, deadCreatures, NUM_CREATURES_MAX, DOVE_WITH_HAWK_SURVIVAL_PROB, HAWK_WITH_HAWK_SURVIVAL_PROB, HAWK_WITH_DOVE_REPRO_PROB);
                 playField[openPlayFieldIdx[r]].Set_beenProcessed(true);
-
             }
         }
 
         //Remove the extra creatures in aliveCreatures if NUM_CREATURES_MAX is exceeded
         if(aliveCreatures.size() > NUM_CREATURES_MAX)
         {
-            //cout<<"Removing extras:--------------------------------------------------------------------------------------- "<<aliveCreatures.size()<<endl;
+            cout<<"Removing extras:--------------------------------------------------------------------------------------- "<<aliveCreatures.size()<<endl;
             while(aliveCreatures.size() > NUM_CREATURES_MAX)
             {
                 //cout<<"Removing creature "<<aliveCreatures.back().Get_creatureID()<<endl;
@@ -138,10 +133,8 @@ int main()
         //Reset the playfield
         for(long i=0; i<preNumAliveCreatures; i++)
         {
+            //Deallocate creature memory and 
             playField[openPlayFieldIdx[i]].Clear();
-            //playField[openPlayFieldIdx[i]].ShowCreatureMemoryAddrs();
-            //playField[openPlayFieldIdx[i]].ShowCreatureMemoryAddrs();
-            //cout<<endl;
 
             //Reset beenProcessed flag on each space
             playField[openPlayFieldIdx[i]].Set_beenProcessed(0);
@@ -167,30 +160,18 @@ int main()
 
 
         //Summary
-        cout << "========================================== DAY " << i+1 << " ==========================================" << endl;
+        cout << "========================================== DAY " << i+1 << " of "<<NUM_SIMULATION_DAYS<<" ==========================================" << endl;
         cout<<"Num doves: "<<numDoves<<endl;
         cout<<"Num hawks: "<<numHawks<<endl;
         cout<<"Total creatures: "<<aliveCreatures.size()<<endl;
 
-        for(long i=0; i<numDoves; i++)
-        {
-            if(i%3 == 0)
-                visualizer.append("o");
-        }
-        visualizer.append("\n");
-
-        for(long q = 0; q < numHawks; q++)
-        {
-            if(q%3 == 0)
-                visualizer.append("|");
-        }
-        visualizer.append("\n\n");
+        buildVisualizerString(numDoves, numHawks, EXTRA_SPACE, visualizer);
 
         numHawks = 0;
         numDoves = 0;
     }
 
-    //cout<<visualizer<<endl;
+    cout<<visualizer<<endl;
 
     return 0;
 }
