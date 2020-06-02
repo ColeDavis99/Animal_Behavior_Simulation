@@ -2,13 +2,14 @@
 Cole Davis
 5/27/20
 
-Evolution of Agression Simulator (Exploring Game Theory)
+Evolution of Aggression Simulator (Exploring Game Theory)
 Inspired by Primer's YouTube Video: https://www.youtube.com/watch?v=YNMkADpvO4w
 =======================================================*/
 
 #include "headerFile.h"
 #include "creature.h"
 #include "area.h"
+#include <string>
 
 using namespace std;
 
@@ -18,10 +19,10 @@ int main()
     const long DOVE_SPAWN_NUM = 1;                      //Number of doves to start simulation with
     const long HAWK_SPAWN_NUM = 1;                      //Number of hawks to start simulation with
     
-    const long EXTRA_SPACE = 2500;
+    const long EXTRA_SPACE = 2000;
     const long PLAYFIELD_SIZE = DOVE_SPAWN_NUM + HAWK_SPAWN_NUM + EXTRA_SPACE;            //Must be at least                    
     const long NUM_CREATURES_MAX = PLAYFIELD_SIZE * 2;                                    //Cap the number of creatures in the simulation, else we'll eventually have 3 per area which is undefined.
-    const long NUM_SIMULATION_DAYS = 50;
+    const long NUM_SIMULATION_DAYS = 80;
 
 
     const float DOVE_WITH_HAWK_SURVIVAL_PROB = 0.5;     //Survival probability of a dove when it meets a hawk
@@ -35,6 +36,7 @@ int main()
     long postNumAliveCreatures = 0;
     long numDoves = 0;
     long numHawks = 0;
+    string visualizer = "";
 
     Area playField[PLAYFIELD_SIZE];         //Where creatures will spawn each simulation turn
     std::vector<long> openPlayFieldIdx;     //Vector that holds shuffled list of playField indeces [0, PLAYFIELD_SIZE -1] where each value appears twice. Used in assigning creatures to spaces efficiently.
@@ -125,10 +127,10 @@ int main()
         //Remove the extra creatures in aliveCreatures if NUM_CREATURES_MAX is exceeded
         if(aliveCreatures.size() > NUM_CREATURES_MAX)
         {
-            cout<<"Removing extras:--------------------------------------------------------------------------------------- "<<aliveCreatures.size()<<endl;
+            //cout<<"Removing extras:--------------------------------------------------------------------------------------- "<<aliveCreatures.size()<<endl;
             while(aliveCreatures.size() > NUM_CREATURES_MAX)
             {
-                cout<<"Removing creature "<<aliveCreatures.back().Get_creatureID()<<endl;
+                //cout<<"Removing creature "<<aliveCreatures.back().Get_creatureID()<<endl;
                 aliveCreatures.pop_back();
             }
         }
@@ -148,8 +150,6 @@ int main()
         if(aliveCreatures.size() == 0)
         {
             cout<<"Everything is dead. Ending simulation."<<endl;
-
-            //Clean up memory
 
             break;
         }
@@ -172,23 +172,25 @@ int main()
         cout<<"Num hawks: "<<numHawks<<endl;
         cout<<"Total creatures: "<<aliveCreatures.size()<<endl;
 
+        for(long i=0; i<numDoves; i++)
+        {
+            if(i%3 == 0)
+                visualizer.append("o");
+        }
+        visualizer.append("\n");
+
+        for(long q = 0; q < numHawks; q++)
+        {
+            if(q%3 == 0)
+                visualizer.append("|");
+        }
+        visualizer.append("\n\n");
+
         numHawks = 0;
         numDoves = 0;
     }
 
+    //cout<<visualizer<<endl;
 
-    // Create a creature with default constructor and setters
-    // Creature testCreature;
-    // testCreature.Set_creatureType(Creature::Strategy::dove);
-    // cout<<"TEST HERE"<<endl;
-    // cout<<testCreature.Get_creatureType()<<endl;
-    // cout<<"end test"<<endl<<endl;
-
-    //View all hawks and doves ID's and types
-    // for(int i=0; i<DOVE_SPAWN_NUM+HAWK_SPAWN_NUM; i++)
-    // {
-    //     cout<<allCreatures[i].Get_creatureID()<<endl;
-    //     cout<<allCreatures[i].Get_creatureType()<<endl<<endl;
-    // }
     return 0;
 }
